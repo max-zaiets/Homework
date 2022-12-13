@@ -1,6 +1,7 @@
 package Lesson7HW.Task2;
 
 import java.text.*;
+import java.time.*;
 import java.util.*;
 
 public class Main {
@@ -25,50 +26,43 @@ public class Main {
 
             System.out.println("Enter worker " + (i+1) + " employment start date:");
             String dateInput = sc.nextLine();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+            Date date2;
 
             try {
-                Date date = new SimpleDateFormat("dd-MM-yyyy").parse(dateInput);
-                workers[i].setEmpYear(date);
-            } catch (ParseException e) {
-                System.out.println("Cannot set employment start date due to wrong date format");
+                date2 = dateFormat.parse(dateInput);
+                workers[i].setEmpYear(date2);
+            } catch (ParseException | InputMismatchException  e ) {
+                System.out.println("Cannot set employment start date due to wrong date or parsing given string is impossible");
             }
         }
 
-        Arrays.sort(workers); //Sort array
+        Arrays.sort(workers);
         showExpWorkers(workers);
 
     }
 
-
-
-
-
-//
 //    Method to print workers name if experience (Worker class constant) is greater than 10
-//
     public static void showExpWorkers(Worker[] workers){
         try {
         for(Worker w: workers) {
 
-
             Date empDate = w.getEmpYear(); // employment start date from class object
 
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy"); // getting todays date and formatting to match the Worker class Date formatting
-            String date = simpleDateFormat.format(w.getEmpYear());
-            Date todaysDate = new SimpleDateFormat("dd-MM-yyyy").parse(date);
+            LocalDate x = empDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(); //parsing Date to LocalDate
+            LocalDate today = LocalDate.now(); // gets todays date
 
 
-            long time_difference = todaysDate.getTime() - empDate.getTime();
-            long years_difference = (time_difference / (1000L *60*60*24*365));
+            Period age = Period.between(x, today); //getting difference between dates
+            int years = age.getYears();
 
-            System.out.println(years_difference);
 
-            if (years_difference > Worker.maxExperience) {
-                    System.out.println("Experience greater than 10 years for : " + w.getInitials());
+            if (years > Worker.maxExperience) {
+                    System.out.println("Experience greater than 10 years for : " + w.getSurname());
             }
         }
-        }catch (NullPointerException | ParseException e){
-            System.out.println("Invalid date format passed to dateToInstant method, use dd-MM-yyyy format");
+        }catch (NullPointerException e){
+            System.out.println("No dates provided/wrong date formatting");
         }
     }
 }

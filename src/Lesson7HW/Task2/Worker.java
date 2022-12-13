@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Worker implements Comparable{ // implementing comparable interface to use Arrays.sort() method
 
-    public static final long maxExperience = 10;
+    public static final long maxExperience = 10; // decided to make max experience a constant as it is the same for all objects
     private String surname;
     private String initials;
     private String occupation;
