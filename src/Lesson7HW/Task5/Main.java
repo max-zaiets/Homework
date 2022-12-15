@@ -9,9 +9,9 @@ public class Main {
 
         try {
             System.out.println("Введіть число номер 1: ");
-            double a = sc.nextDouble();
+            int a = sc.nextInt();
             System.out.println("Введіть число номер 2: ");
-            double b = sc.nextDouble();
+            int b = sc.nextInt();
 
             System.out.println("Введіть назву операції: ");
 
